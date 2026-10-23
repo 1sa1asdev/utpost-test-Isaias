@@ -61,7 +61,6 @@ export const resolvers = {
   Tour: {
     startedAt: (tour) => iso(tour.started_at),
     distanceM: (tour) => tour.distance_m,
-    user: (tour, args, { loaders }) => loaders.user.load(tour.user_id),
     guide: (tour, args, { loaders }) => (tour.guide_id ? loaders.guide.load(tour.guide_id) : null),
     photos: (tour, args, { loaders }) => loaders.photos.load(tour.id),
     logs: (tour, args, { loaders }) => loaders.logs.load(tour.id),

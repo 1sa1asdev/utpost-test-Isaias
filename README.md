@@ -46,10 +46,20 @@ npm run dev:client                    # Vue-klienten på :3001 med hot reload, /
     npm run format:check      # Prettier – bara kontroll, ändrar inget
     npm run codegen           # typer ur GraphQL-schemat → client/src/gql/ (körs av typecheck)
     npm run typecheck         # codegen + vue-tsc i client/ + tsc i api/ – kedjan schema → fråga → vy kontrolleras här
-    npm test                  # Vitest, en gång, avslutar
+    npm test                  # Vitest, en gång, avslutar (klientens tester)
+    npm run test:api          # integrationstester mot API:et – kräver databaserna igång, seedade och migrerade
     npm run build             # vite build av client/
     npm run mongo:smoke [id]  # skriver en tur ur Postgres som ett dokument i MongoDB och läser tillbaka
     npm run migrate:logs      # alla turer med mätpunkter → MongoDB, med kontroll av antalet (M5)
+
+## Mätning före/efter (M5)
+
+Antal databasfrågor för `query Turer { tours { title user { displayName } } }` (`extensions.databasfragor`):
+
+| | Databasfrågor | Hur vi vet |
+|---|---|---|
+| Före (M4, en fråga per tur) | **51** | bevisat av integrationstestet: med DataLoader bortkopplad blir det rött med `AssertionError: expected 51 to be less than or equal to 2` |
+| Efter (DataLoader) | **2** | grönt test i `api/src/graphql/server.test.js` (`npm run test:api`) |
 
 ## Images
 
